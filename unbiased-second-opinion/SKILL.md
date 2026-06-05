@@ -14,8 +14,17 @@ Use this skill when asked to review, validate a theory, or confirm that work is 
 - Prefer direct evidence over summaries.
 - If the prompt embeds a theory, verify it or reject it with reasoning.
 
+## Verifying independently
+
+Verification means re-deriving the claim, not re-reading it:
+
+- Re-run the commands and tests the requester cites and compare the actual output against the claimed output.
+- Reproduce the claimed behavior or bug yourself before accepting that it exists or that it is fixed.
+- Test the negation: look for the case that would make the theory false, not only examples that fit it.
+- Check what the explanation does not mention: adjacent code paths, error branches, and callers outside the described scope.
+
 ## Review behavior
 
 Start from the supplied scope, then follow dependencies and affected callers as needed. Do not limit the review to highlighted files if the change has broader effects.
 
-Report only issues you can support. If no issue is found, say what was checked and return a production-quality verdict or equivalent clear conclusion.
+Report only issues you can support. If no issue is found, say what was checked and any residual risk. For code changes, use the verdict and severity vocabulary from the Code Review Checklist skill: `production_quality` or `needs_work`.

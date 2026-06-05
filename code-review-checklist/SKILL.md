@@ -31,24 +31,37 @@ Check these dimensions on every review:
 
 - Functional correctness: changed behavior, edge cases, state transitions, validation, data loss, migrations, and compatibility.
 - Security: injection, path traversal, authentication, authorization, secret exposure, unsafe deserialization, SSRF, and command execution.
-- Code smells: bloaters, object-orientation abusers, change preventers, dispensables, couplers, and obfuscators.
+- Code smells: duplicated logic, dead code, oversized functions or classes, leaky abstractions, tight coupling, and misleading names.
 - Error-prone patterns: null or option misuse, type coercion, arithmetic hazards, incomplete cleanup, unhandled errors, and fragile tests.
 - Concurrency: shared mutable state, races, deadlocks, cancellation, ordering, and async blocking.
 - Performance: algorithmic regressions, N+1 work, unbounded loops, memory growth, missing timeouts, and excessive I/O.
 - Maintainability: clear ownership, local consistency, unnecessary abstractions, unclear names, and duplicated logic.
 - Tests: missing coverage for risky behavior, tests that assert implementation details, brittle sleeps, and untested error paths.
 
+Scale depth to the size and risk of the change: every dimension gets at least a pass, but a one-line fix does not need a per-dimension write-up.
+
+## Severity
+
+- `blocker`: must be fixed before the change ships; data loss, security holes, broken behavior.
+- `major`: should be fixed before the change ships; likely bugs, missing tests for risky paths, significant maintenance traps.
+- `minor`: worth fixing but does not block; small smells, naming, low-risk gaps.
+
 ## Output
 
 Lead with findings ordered by severity. If no issues are found, say that clearly and mention the coverage checked and any residual risk.
 
-When structured output is useful, use:
+The verdict is `production_quality` when there are no `blocker` or `major` findings, otherwise `needs_work`. When structured output is useful, use:
 
 ```json
 {
-  "verdict": "production_quality",
-  "findings": []
+  "verdict": "needs_work",
+  "findings": [
+    {
+      "dimension": "concurrency",
+      "severity": "major",
+      "description": "Cache map is written from multiple goroutines without a lock.",
+      "evidence": "store/cache.go:42 writes m.entries; called from handler.go:88 per request."
+    }
+  ]
 }
 ```
-
-Use `needs_work` when there is any blocker or major issue. Findings should include `dimension`, `severity`, `description`, and `evidence`.

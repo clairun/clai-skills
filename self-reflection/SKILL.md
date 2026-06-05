@@ -6,6 +6,16 @@ description: "Use a concise THINK, WRITE, REFLECT, REVISE loop before completing
 
 Apply this loop before completing non-trivial work.
 
+## Trigger
+
+Apply the loop before handing off:
+
+- edits spanning multiple files or subsystems,
+- anything that will be published, shipped, or acted on by others,
+- answers containing claims the user will rely on without re-checking.
+
+Skip it for quick factual replies, single obvious edits, and intermediate steps inside an ongoing task. One REFLECT and REVISE pass is the norm; loop again only if REFLECT found a correctness problem, not to polish wording.
+
 ## THINK
 
 Identify the actual user goal, constraints, risks, and the smallest useful completion state. Separate known facts from assumptions.

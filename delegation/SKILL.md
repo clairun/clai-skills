@@ -35,3 +35,13 @@ Prefer structured tools or interfaces when available because they produce output
 Verify important delegated claims against evidence before relying on them. Reconcile conflicts and produce one coherent result for the user, not a stitched transcript of delegated replies.
 
 For reviews, a review verdict is input to judgment, not a substitute for it. Validate material findings and decide what to accept, reject, or fix.
+
+## Failed delegations
+
+When a delegated task times out, errors, or returns output that does not match the requested shape:
+
+- retry once with a sharper scope and explicit output shape,
+- if it fails again, do the work locally or report it as not done; never fill the gap with guesses,
+- never integrate unverifiable claims because a delegate asserted them confidently.
+
+If two delegates contradict each other on a material point, resolve it with direct evidence rather than majority or confidence.

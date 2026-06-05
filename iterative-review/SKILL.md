@@ -22,9 +22,15 @@ The loop does not trigger for read-only investigation, planning, explanation, or
 2. Prepare the full change for review. Prefer a git range such as `main..HEAD` or a complete file list. Do not narrow the scope to only the files edited most recently.
 3. Request review over the full change. Ask for a verdict plus concrete findings with evidence.
 4. For each finding, verify the cited evidence. Reject false positives with a concise reason and fix validated issues.
-5. Re-run the same review mechanism over the original full scope after fixes. Do not ask reviewers to check only the fixes.
+5. Re-run the same review mechanism over the original full scope after fixes. Do not ask reviewers to check only the fixes. Carry forward the list of rejected false positives so they are not re-litigated each round.
 6. Repeat until the final verdict is production-quality or no material issues remain.
 7. Only then perform the triggering publish, release, deploy, or ship action.
+
+For reviewing code changes, the Code Review Checklist skill defines the dimensions, severities, and verdict vocabulary.
+
+## Termination
+
+The loop is bounded. If new material findings keep appearing after three full rounds, stop looping: that signals a problem deeper than review can fix. Summarize validated findings, applied fixes, and unresolved issues, then ask the user how to proceed instead of shipping or looping further.
 
 ## Blocked states
 
