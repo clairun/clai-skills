@@ -20,7 +20,7 @@ If it is unclear whether the user request will produce edits, ask once. Do not o
 
 ## On every triggering run
 
-1. Read `.clai/sow/index.md`, creating it if missing. Note which SOWs are `open`, `in-progress`, or `completed`.
+1. Read `.sow/index.md`, creating it if missing. Note which SOWs are `open`, `in-progress`, or `completed`.
 2. If a SOW is `in-progress`, resume it. Only one SOW may be in progress at a time.
 3. If none is in progress, pick the highest-priority `open` SOW and transition it to `in-progress`, timestamping the transition in its `state.md`.
 4. Modify project files only in service of the current SOW.
@@ -37,7 +37,7 @@ If it is unclear whether the user request will produce edits, ask once. Do not o
 ## Layout
 
 ```text
-.clai/sow/
+.sow/
 ├── index.md
 └── <sow-id>/
     ├── scope.md       # what and why
@@ -53,7 +53,7 @@ Mark a SOW `completed` only when `validation.md` lists evidence, such as command
 
 ## Blocked states
 
-If `.clai/sow/` is unavailable or outside the current write permissions, report the blocker instead of silently skipping SOW updates.
+If `.sow/` is unavailable or outside the current write permissions, report the blocker instead of silently skipping SOW updates.
 
 ## Boundary with memory
 
