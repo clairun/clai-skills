@@ -79,10 +79,13 @@ Report a finding only when it is:
 
 Do not report vague preferences. If a simpler design is recommended, name the simpler shape and why it preserves behavior with less risk.
 
+For runtime or language-semantics claims, verify the project runtime before assigning blocker or major severity. Exception hierarchy, cancellation behavior, signal handling, async task semantics, path normalization, locale sorting, numeric overflow, and date/time parsing differ across languages and versions. If the runtime/version is not visible and the claim depends on it, frame it as a question or residual risk rather than a defect.
+
 Do not report:
 
 - Pre-existing bugs not made worse by the patch.
 - Speculative cross-file impact without tracing the affected path.
+- Unverified language/runtime claims, such as assuming a generic `Exception` catch swallows process interrupts or async cancellation without checking the runtime's exception hierarchy.
 - Style preferences without maintainability or correctness impact.
 - Test requests for behavior provided entirely by a library or framework.
 - Suggestions that demand rigor absent from the surrounding codebase.
