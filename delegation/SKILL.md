@@ -30,6 +30,15 @@ Every delegated task should include:
 
 Prefer structured tools or interfaces when available because they produce outputs that are easier to validate. Dispatch independent tasks in parallel. Use sequential delegation only when one result feeds the next task.
 
+## Lifecycle
+
+After delegating a task to an agent, you own it until it reaches a terminal status.
+
+- Do not send a final answer or end the main run while any delegated task is still `queued` or `running`.
+- Poll delegated task ids with the available task-result tool until each is `completed`, `failed`, or `blocked`.
+- If a running task's progress is unclear, inspect its session history or tool-call transcript when the platform exposes the task `sessionId` or `runId`; use that evidence to decide whether it is progressing, stalled, hung, or blocked.
+- If a delegated task fails, blocks, or appears stalled, report that state from evidence instead of inventing a result.
+
 ## Integrate, don't paste
 
 Verify important delegated claims against evidence before relying on them. Reconcile conflicts and produce one coherent result for the user, not a stitched transcript of delegated replies.
