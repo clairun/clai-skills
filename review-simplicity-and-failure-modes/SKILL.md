@@ -34,6 +34,8 @@ Trace realistic ways the change can fail. Prioritize:
 
 Do not stop at "could fail." Identify the trigger, code path, impact, and expected fix or test.
 
+When the failure depends on runtime semantics, verify the runtime before making it a finding. Examples: whether a broad exception catch captures cancellation, whether path normalization follows POSIX or Windows rules, whether sort order is locale-sensitive, whether integer overflow is possible, or how timestamps parse around DST. If the version/runtime is unknown, record the concern as a question or residual risk instead of a `blocker` / `major`.
+
 ## Pass 3 - Boundary tracing
 
 For every new value that crosses a boundary, find both sides:
