@@ -20,7 +20,7 @@ The loop does not trigger for read-only investigation, planning, explanation, or
 
 1. Identify the best available independent review mechanism: a human reviewer, code-review tool, CI review, review agent, or equivalent.
 2. Prepare the full change for review. Prefer a git range such as `main..HEAD` or a complete file list. Do not narrow the scope to only the files edited most recently.
-3. Request review over the full change. Ask for a verdict plus concrete findings with evidence. For high-risk changes, use at least two independent perspectives when available: one focused on correctness/security/integration bugs and one focused on simplicity, structure, tests, and failure modes.
+3. Request review over the full change. Ask for a verdict plus concrete findings with evidence. If the repo has CI, say so in the request and tell the reviewer to run nothing CI already covers — no builds, formatters, linters, or test suites — and to review the code itself. CI reports on its own schedule; do not hold the review for it. For high-risk changes, use at least two independent perspectives when available: one focused on correctness/security/integration bugs and one focused on simplicity, structure, tests, and failure modes.
 4. For each finding, verify the cited evidence. Reject false positives with a concise reason and fix validated issues.
 5. Re-run the same review mechanism over the original full scope after fixes. Do not ask reviewers to check only the fixes. Carry forward the list of rejected false positives so they are not re-litigated each round.
 6. Repeat until the final verdict is production-quality or no material issues remain.

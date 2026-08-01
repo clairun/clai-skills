@@ -29,6 +29,20 @@ If tool access prevents one of these passes, state the missing evidence and lowe
 
 For changes to prompts, tools, sandboxing, memory, context compaction, task dispatch, agent loops, permissions, or evaluation harnesses, do not treat passing unit tests as enough. If lightweight evals or realistic task checks were not run, call that residual risk out explicitly before any positive verdict.
 
+## Do not re-run what CI runs
+
+If the repo has CI, build, format, lint, type check, and the full test suite are its job. Review by
+reading. Do not run them, and do not wait for CI to finish: its verdict arrives on its own and is not
+yours to produce. Say what you did not check rather than spending minutes rediscovering it.
+
+Run a command only to answer a question reading cannot: reproducing a specific suspected bug, or
+checking a path the suite does not cover. State the question first. If there is none, run nothing.
+
+Where there is no CI, run the narrowest relevant check, never the whole suite.
+
+Your verdict covers what CI cannot see: intent, design, integration boundaries, failure modes, and
+whether the tests assert the right behavior.
+
 ## Accessing the change
 
 Read the change from the most authoritative source available:

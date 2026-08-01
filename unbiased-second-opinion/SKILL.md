@@ -18,7 +18,7 @@ Use this skill when asked to review, validate a theory, or confirm that work is 
 
 Verification means re-deriving the claim, not re-reading it:
 
-- Re-run the commands and tests the requester cites and compare the actual output against the claimed output.
+- Re-run the specific command whose output the requester cites, and compare it against the claim. Re-run that command only, not the surrounding suite: build, lint, and full-suite verification belong to CI.
 - Reproduce the claimed behavior or bug yourself before accepting that it exists or that it is fixed.
 - Test the negation: look for the case that would make the theory false, not only examples that fit it.
 - Check what the explanation does not mention: adjacent code paths, error branches, and callers outside the described scope.
