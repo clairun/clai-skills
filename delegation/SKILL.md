@@ -45,6 +45,20 @@ Verify important delegated claims against evidence before relying on them. Recon
 
 For reviews, a review verdict is input to judgment, not a substitute for it. Validate material findings and decide what to accept, reject, or fix.
 
+## Self-reports about the delegate's own run
+
+A delegate's account of what *it* did is a claim, not an observation, and its errors run
+self-flattering: it will assert it verified something it never measured.
+
+This matters for the claims you are about to act on or repeat to the user as fact, such as "the tests
+pass", "I stayed inside that module", or "I checked every call site". Settle those with the cheapest
+evidence available — the diff, the files, or rerunning the check yourself. Reading the delegate's full
+transcript usually costs more than redoing the check, so go to `sessionId`/`runId` only when the claim
+is about process and left no artifact behind. If a claim would not change your next action, spend
+nothing on it.
+
+When writing the task, prefer constraints that leave a checkable artifact.
+
 ## Failed delegations
 
 When a delegated task times out, errors, or returns output that does not match the requested shape:
