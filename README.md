@@ -16,6 +16,7 @@ workflow discipline, not a specific runtime topology.
 | [code-review-checklist](code-review-checklist/SKILL.md) | Reviewing code changes across correctness, security, integration boundaries, simplicity, failure modes, concurrency, performance, and tests. |
 | [codebase-quality-audit](codebase-quality-audit/SKILL.md) | Auditing a whole repository or subsystem for high-value refactoring and quality improvements, producing a prioritized report. |
 | [delegation](delegation/SKILL.md) | Splitting separable work across collaborators, tools, or review passes. |
+| [development-discipline](development-discipline/SKILL.md) | Implementing code changes with focused scope, local consistency, concise comments, and practical validation. |
 | [iterative-review](iterative-review/SKILL.md) | Shipping code: require independent review, fix validated findings, repeat until clear. |
 | [review-simplicity-and-failure-modes](review-simplicity-and-failure-modes/SKILL.md) | Adding stricter review pressure for overcomplicated, poorly structured, insufficiently tested, or failure-prone changes. |
 | [self-reflection](self-reflection/SKILL.md) | Finishing non-trivial work: THINK, WRITE, REFLECT, REVISE before handing off. |
