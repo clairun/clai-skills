@@ -16,10 +16,12 @@ Use this skill when editing or creating code. The goal is to ship a small, reada
 
 ## Comment Policy
 
-- Comments are for non-obvious intent, invariants, edge cases, tradeoffs, external constraints, and behavior that would be hard to recover from code alone.
+- Default to no comment. Write one only for intent, an invariant, or an external constraint that cannot be recovered from the code, in the shortest form that carries it.
 - Do not add comments that restate names, types, branches, loops, assignments, or obvious control flow.
 - Do not narrate every step of new code. If a comment is needed to make simple code understandable, first try to make the code clearer.
 - Keep comments short and tied to the code they explain. Avoid historical essays, future plans, and implementation diaries in source files.
+- State a rule once. Copies drift, and a long explanatory block is a signal to simplify the rule instead of documenting it harder.
+- Never assert in a comment what you have not verified, and never cite scratch paths or another repo's line numbers.
 - When editing nearby code, delete or update stale comments. Leave useful existing comments intact.
 
 ## Validation
