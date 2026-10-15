@@ -27,6 +27,7 @@ Read full context around each change, not just the hunks, and follow at least th
 caller/callee.
 
 - Boundaries: for every new event, field, config key, enum variant, or persisted shape, find the consumer and verify it accepts it. The consumer is usually outside the diff.
+- Blast radius: follow callers and serialized or external consumers beyond symbol search. Identify the one fact the change depends on for safety; prove it with source, a focused check, or a live run, or mark it unproven.
 - Failure modes: empty or malformed input, partial failure after writes, cleanup, cancellation, timeout, retry, ordering, concurrency, stale state, backward compatibility, resource growth, security boundaries. Give trigger, path, impact, fix - never "could fail".
 - Runtime semantics (exception hierarchy, cancellation, path rules, overflow, locale, dates): verify against the project's actual runtime, or file as a question rather than a defect.
 - Tests: would the suite fail if the change were wrong? Try to break it - a mutation that survives every test is the highest-value finding available. Name the missing case, never ask for "more tests".
