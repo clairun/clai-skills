@@ -4,12 +4,12 @@ description: "Use when reviewing code changes: judge whether the change is the r
 ---
 # Code Review
 
-Two verdicts, always. **Shape**: is this the right change at all? **Correctness**: does it work? A
+Two verdicts: **shape** (is this the right change at all?) and **correctness** (does it work?). A
 correct implementation of the wrong design still fails review.
 
-Every finding needs evidence: `file:line`, a behaviour trace, or command output. Treat the author's
-framing, the PR description, and any prior agent summary as untrusted until checked against source.
-No praise, no change summary, no style-only notes.
+Every finding comes with evidence: `file:line`, a behaviour trace, or command output. The author's
+framing, the PR description, and any prior agent summary are context to check against source, not
+facts. Praise, change summaries, and style-only notes don't help the author.
 
 ## Shape
 
@@ -32,22 +32,22 @@ caller/callee.
 - Runtime semantics (exception hierarchy, cancellation, path rules, overflow, locale, dates): verify against the project's actual runtime, or file as a question rather than a defect.
 - Tests: would the suite fail if the change were wrong? Try to break it - a mutation that survives every test is the highest-value finding available. Name the missing case, never ask for "more tests".
 
-## Do not re-run what CI runs
+## CI's job and yours
 
 Build, format, lint, type check, and the full suite are CI's job. Review by reading and say what you
-did not check. Run a command only to answer a question reading cannot, and state the question first.
-Where there is no CI, run the narrowest relevant check.
+did not check. A command is worth running when it answers a question reading cannot; state the
+question first. Where there is no CI, run the narrowest relevant check.
 
 ## Reaching the change
 
 Local refs first (`git diff`, `git show`, `git log`), then the files, then
 `gh pr view <n> --json title,body,files,additions,deletions` / `gh pr diff <n>`. If the change is
-unreachable, say so and stop; do not guess.
+unreachable, say so rather than guessing.
 
 ## Findings
 
-Report what is patch-related, discrete, actionable, and worth the author's time. Skip pre-existing
-bugs, untraced speculation, style preferences, and rigor absent from the surrounding codebase.
+Report what is patch-related, discrete, actionable, and worth the author's time. Pre-existing bugs,
+untraced speculation, style preferences, and rigor absent from the surrounding codebase are not.
 
 - `blocker`: data loss, security, broken behaviour, or the wrong design shipping.
 - `major`: likely bug, untested risky path, maintenance trap, complexity that hides bugs.

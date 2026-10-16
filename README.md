@@ -6,8 +6,9 @@ Each skill lives in its own directory and exposes a `SKILL.md` file with
 frontmatter metadata plus concise task guidance. CLAI discovers these folders
 directly from the repository checkout.
 
-Skills should stay architecture agnostic: they describe task knowledge and
-workflow discipline, not a specific runtime topology.
+Skills give direction, not mandates: they describe task knowledge and
+workflow discipline, and explain how CLAI works where that matters (such as
+how delegated tasks report back) so agents can use their own judgement.
 
 ## Catalog
 
