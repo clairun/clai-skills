@@ -34,9 +34,8 @@ Prefer structured tools or interfaces when available because they produce output
 
 After delegating a task to an agent, you own it until it reaches a terminal status.
 
-- Do not send a final answer or end the main run while any delegated task is still `queued` or `running`.
-- Poll delegated task ids with the available task-result tool until each is `completed`, `failed`, or `blocked`.
-- If a running task's progress is unclear, inspect its session history or tool-call transcript when the platform exposes the task `sessionId` or `runId`; use that evidence to decide whether it is progressing, stalled, hung, or blocked.
+- Do not wait for it. When results arrive as events that wake you, end your turn after reporting which tasks are in flight, and integrate each result when its event arrives. Never sleep or poll the task-result tool in a loop.
+- If a running task's progress is unclear, inspect it with the task-result tool, or its session history or tool-call transcript when the platform exposes the task `sessionId` or `runId`; use that evidence to decide whether it is progressing, stalled, hung, or blocked.
 - If a delegated task fails, blocks, or appears stalled, report that state from evidence instead of inventing a result.
 
 ## Integrate, don't paste
