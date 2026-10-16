@@ -1,15 +1,23 @@
 ---
 name: "Code Review Checklist"
-description: "Use when reviewing code changes: judge whether the change is the right thing to do, then whether it is correct, with evidence for every finding."
+description: "Use when reviewing a change, validating someone's theory, or confirming work is done: judge whether it is the right thing to do, then whether it is correct, verifying independently with evidence for every finding."
 ---
 # Code Review
 
 Two verdicts: **shape** (is this the right change at all?) and **correctness** (does it work?). A
 correct implementation of the wrong design still fails review.
 
-Every finding comes with evidence: `file:line`, a behaviour trace, or command output. The author's
-framing, the PR description, and any prior agent summary are context to check against source, not
-facts. Praise, change summaries, and style-only notes don't help the author.
+Every finding comes with evidence: `file:line`, a behaviour trace, or command output. Praise, change
+summaries, and style-only notes don't help the author.
+
+## Verify independently
+
+The author's framing, the PR description, a prior agent's summary, or a theory handed to you are
+context, not facts. Verification means re-deriving the claim, not re-reading it. Re-run the specific
+command whose output they cite (that one, not the surrounding suite) and compare it with the claim.
+Reproduce the behaviour or bug before accepting that it exists or is fixed. Test the negation: look
+for the case that would make the theory false. Check what the explanation doesn't mention: adjacent
+paths, error branches, callers outside the described scope. Stay read-only unless asked to fix things.
 
 ## Shape
 
