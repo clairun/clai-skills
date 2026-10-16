@@ -4,55 +4,26 @@ description: "Use when auditing a whole repository or subsystem for concrete, hi
 ---
 # Codebase Quality Audit
 
-Use this skill to audit an existing codebase for concrete, high-value improvements and produce a prioritized report. This is a whole-repo (or whole-subsystem) analysis, not a review of a single change: for reviewing a diff or pull request, use the Code Review Checklist skill instead.
+A whole-repo (or whole-subsystem) analysis that produces a prioritized report of improvements worth making. It is read-only: implementation is a separate task. For a single change or PR, the Code Review Checklist skill is the right tool.
 
-The goal is to identify improvements worth making, not to rewrite the codebase or impose personal style. When performing this audit, do not modify code; produce the report only. Implementation is a separate, explicitly-requested task and is out of scope for this pass. Every finding must carry evidence: a `file:line` reference and quoted code.
+## Understand first
 
-## Phase 1 — Understand before critiquing
+Before critiquing, map the repo in 5–10 lines: entry points, main modules, dependency direction, build and test setup, the architectural intent and conventions, and how much test coverage protects a refactor. Existing conventions win over your preferences unless they are actively harmful. When something is ambiguous (dead code, or code used by an external consumer?), flag it as a question rather than assuming.
 
-Do this before any critique, and summarize it in 5–10 lines:
+## Analyze
 
-- Map the repo: entry points, main modules, dependency direction, build and test setup.
-- Identify the existing architectural intent and conventions. Existing conventions win over your preferences unless they are actively harmful.
-- Assess test coverage: it determines how safe refactoring is.
+Apply the Code Review Checklist dimensions to the whole codebase, looking for:
 
-If something is ambiguous, for example dead code versus code used by an external consumer, flag it as a question rather than assuming.
+- correctness risks: error-handling gaps, races, resource leaks, invariants that can be violated;
+- code smells: duplicated logic, functions doing several things, god modules, deep nesting, primitive obsession, shotgun surgery, feature envy, dead code;
+- design issues: wrong dependency direction, leaky abstractions, missing seams for testing, business logic tangled with I/O or framework code;
+- pattern opportunities, only where a pattern reduces complexity for a problem the code actually has;
+- consistency: naming, layout, and error-handling style diverging within the repo.
 
-## Phase 2 — Analyze
+Each finding carries a `file:line` location with the code quoted, the concrete impact (bugs, change cost, testability), a fix specific enough for someone else to implement, an S/M/L effort estimate with whether tests protect the change, and a `high`/`medium`/`low` value rating.
 
-Examine the code across the dimensions defined in the Code Review Checklist skill (correctness, security, code smells, error-prone patterns, concurrency, performance, maintainability, tests), applied to the whole codebase rather than a change. Prioritize:
+## Report
 
-- Correctness risks: error-handling gaps, races, resource leaks, invariants that can be violated.
-- Code smells: duplicated logic, long functions doing multiple things, god modules, deep nesting, primitive obsession, shotgun surgery, feature envy, inappropriate intimacy between modules, dead code.
-- Design issues: wrong dependency direction, leaky abstractions, missing seams for testing, mixed levels of abstraction, business logic tangled with I/O or framework code.
-- Pattern opportunities: only where a pattern reduces complexity for a problem the code actually has, such as strategy to replace a growing switch. Never introduce a pattern speculatively.
-- Consistency: naming, module layout, and error-handling style diverging within the repo.
+Lead with the top five issues by value-to-effort. Group the rest by category, ordered by severity. Suggest a refactoring sequence of small, independently verifiable steps that keep the build green, marking the ones that need tests first. Close with a short "leave it alone" list: things that look smelly but aren't worth touching, and why.
 
-For every finding provide:
-
-- Location: file path and line range.
-- Evidence: the specific code demonstrating the issue, quoted.
-- Impact: what concretely goes wrong or gets harder — bugs, change cost, testability.
-- Proposed fix: specific enough that another engineer could implement it.
-- Effort and risk: S/M/L effort, and whether tests currently protect the change.
-- Severity: `high` / `medium` / `low`.
-
-Severity here rates improvement value, not ship-blocking, so it uses `high`/`medium`/`low` rather than the Code Review Checklist's change-gating vocabulary.
-
-## Phase 3 — Report
-
-Produce a report with:
-
-- Executive summary: the top 5 issues by value-to-effort ratio.
-- Findings grouped by category, ordered by severity.
-- A suggested refactoring sequence: order changes so each step is small, independently verifiable, and keeps the build green. Mark which steps are blocked on adding tests first.
-- A short "leave it alone" list: things that look smelly but are not worth touching, and why.
-
-## Rules
-
-- This pass is analysis only: report findings, do not edit code. If the user wants fixes, that is a separate task run without this skill's read-only constraint.
-- Prefer deleting code over adding code. Prefer simple over clever.
-- Do not recommend new dependencies, frameworks, or layers of abstraction unless a specific, existing pain point demonstrates the payoff.
-- A long but linear, readable function is not automatically a smell. Flag it only if it mixes concerns or resists testing.
-- Calibrate to the repo's size and maturity: a script collection and a production service warrant different standards.
-- If you find fewer real issues than expected, say so. Do not pad the report.
+Prefer deleting code over adding it, simple over clever. Don't recommend new dependencies or layers of abstraction without a specific existing pain point that pays for them. A long but linear, readable function isn't a smell by itself. Calibrate to the repo's size and maturity, and if you find fewer real issues than expected, say so rather than padding.

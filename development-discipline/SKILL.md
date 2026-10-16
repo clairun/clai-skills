@@ -20,15 +20,9 @@ Use this skill when editing or creating code. The goal is to ship a small, reada
 - Model states and ownership explicitly when branches or synchronized booleans grow. Keep simpler local code when it already expresses the rule.
 - For operations that can retry or resume, check what happens after a duplicate call or partial prior run.
 
-## Comment Policy
+## Comments
 
-- Default to no comment. Write one only for intent, an invariant, or an external constraint that cannot be recovered from the code, in the shortest form that carries it.
-- Do not add comments that restate names, types, branches, loops, assignments, or obvious control flow.
-- Do not narrate every step of new code. If a comment is needed to make simple code understandable, first try to make the code clearer.
-- Keep comments short and tied to the code they explain. Avoid historical essays, future plans, and implementation diaries in source files.
-- State a rule once. Copies drift, and a long explanatory block is a signal to simplify the rule instead of documenting it harder.
-- Never assert in a comment what you have not verified, and never cite scratch paths or another repo's line numbers.
-- When editing nearby code, delete or update stale comments. Leave useful existing comments intact.
+Default to none. A comment earns its place when it carries intent, an invariant, or an external constraint that the code can't express; keep it short and next to the code it explains. If simple code seems to need a comment, try clearer code first. State a rule once: copies drift, and a long explanatory block usually means the rule should be simpler. Don't assert what you haven't verified, and don't cite scratch paths or another repo's line numbers. When editing nearby code, update or delete stale comments and leave useful ones alone.
 
 ## Validation
 

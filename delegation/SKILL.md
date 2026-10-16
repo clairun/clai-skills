@@ -4,53 +4,18 @@ description: "Use when work can be split across independent collaborators, tools
 ---
 # Delegation
 
-Use delegation when independent work can happen in parallel or when a separate perspective materially improves quality. Delegation may mean assigning work to another person, another agent, a specialized tool, or a separate review pass.
+Delegate when independent work can run in parallel or when a separate perspective improves quality: scoped investigations, hypothesis checks, reviews, summaries of separate subsystems, data gathering. Keep work local when the next step needs the result right away, when it is tightly coupled, or when the decision means weighing several inputs together.
 
-## Delegate
+## How it works in CLAI
 
-Delegate tasks that are separable and easy to verify:
+Agents talk to each other through tasks. You assign a task to a workspace agent and it runs in its own session, in parallel with yours. You don't need to wait: when the task finishes, fails, or blocks, its result arrives in your session as an event and wakes you. You can carry on with other work or end your turn in the meantime. You can send messages to a running task, and a task can report back more than once. The task-result tool is there for a closer look at a task whose progress seems unclear: it exposes the session and run ids you can use to read its transcript.
 
-- read-only investigation with a clear scope,
-- independent hypothesis checks,
-- code or design review,
-- summaries of separate subsystems,
-- data gathering that does not block the next local step.
+## A good task
 
-## Keep local
+A good dispatch has a concrete scope (`audit error handling in src-tauri/src/assistant/`, not `look at the code`), the shape of output you expect (findings, verdict, summary, file list), and whatever constraints the worker needs (read-only, no network, stay inside one module). The worker doesn't see your conversation, so include the context it needs. Independent tasks can go out together; sequence them only when one result feeds the next.
 
-Keep work local when the next step depends on the result immediately, when the task is tightly coupled, or when the final decision requires weighing tradeoffs across multiple inputs.
+## Integrating results
 
-## Dispatch shape
+Delegated claims are input, not conclusions. Verify the ones that matter, reconcile conflicts with direct evidence rather than confidence or majority, and produce one coherent result rather than a stitched transcript of replies. A review verdict is the same: validate the findings and decide what to accept, reject, or fix.
 
-Every delegated task should include:
-
-- a concrete scope, such as `audit error handling in src-tauri/src/assistant/`, not `look at the code`,
-- the expected output shape, such as findings, verdict, summary, or file list,
-- constraints the assignee needs, such as read-only mode, no network, or no edits outside a module.
-
-Prefer structured tools or interfaces when available because they produce outputs that are easier to validate. Dispatch independent tasks in parallel. Use sequential delegation only when one result feeds the next task.
-
-## Lifecycle
-
-After delegating a task to an agent, you own it until it reaches a terminal status.
-
-- Do not send a final answer or end the main run while any delegated task is still `queued` or `running`.
-- Poll delegated task ids with the available task-result tool until each is `completed`, `failed`, or `blocked`.
-- If a running task's progress is unclear, inspect its session history or tool-call transcript when the platform exposes the task `sessionId` or `runId`; use that evidence to decide whether it is progressing, stalled, hung, or blocked.
-- If a delegated task fails, blocks, or appears stalled, report that state from evidence instead of inventing a result.
-
-## Integrate, don't paste
-
-Verify important delegated claims against evidence before relying on them. Reconcile conflicts and produce one coherent result for the user, not a stitched transcript of delegated replies.
-
-For reviews, a review verdict is input to judgment, not a substitute for it. Validate material findings and decide what to accept, reject, or fix.
-
-## Failed delegations
-
-When a delegated task times out, errors, or returns output that does not match the requested shape:
-
-- retry once with a sharper scope and explicit output shape,
-- if it fails again, do the work locally or report it as not done; never fill the gap with guesses,
-- never integrate unverifiable claims because a delegate asserted them confidently.
-
-If two delegates contradict each other on a material point, resolve it with direct evidence rather than majority or confidence.
+When a task fails, times out, or returns something other than what you asked for, retry once with a sharper scope. If that fails too, do the work yourself or report it as not done. Report failures and stalls from evidence; don't fill gaps with guesses.
