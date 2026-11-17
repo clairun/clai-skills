@@ -40,14 +40,13 @@ caller/callee.
 - Boundaries: for every new event, field, config key, enum variant, or persisted shape, find the consumer and verify it accepts it. The consumer is usually outside the diff.
 - Blast radius: follow callers and serialized or external consumers beyond symbol search. Identify the one fact the change depends on for safety; prove it with source, a focused check, or a live run, or mark it unproven.
 - Failure modes: empty or malformed input, partial failure after writes, cleanup, cancellation, timeout, retry, stale state, backward compatibility, resource growth, security boundaries. Give trigger, path, impact, fix - never "could fail".
-- Ordering and concurrency: for each lock, row, file, or other shared resource the change takes, write down the order it acquires them and compare it with every other path touching the same resources while it runs, including implicit ones symbol search misses: cascades, triggers, hooks, handlers. Acquiring a stronger hold on something you already hold is an ordering problem too.
+- Ordering and concurrency: for each lock, row, file, or other shared resource the change takes, write down the order it acquires them and compare it with every other path touching the same resources while it runs, including implicit ones symbol search misses: foreign-key actions and checks, triggers, hooks, handlers. Acquiring a stronger hold on something you already hold is an ordering problem too.
 - Reverse paths: rollback, down migrations, undo, and feature-flag-off paths get the same review as the forward path.
 - Runtime semantics (exception hierarchy, cancellation, path rules, overflow, locale, dates): verify against the project's actual runtime, or file as a question rather than a defect.
-- Tests: would the suite fail if the change were wrong? Try to break it - a mutation that survives every test is the highest-value finding available. Name the missing case, never ask for "more tests". A test built to confirm your model can't find what the model misses: for concurrency, run the real conflicting operation alongside the change rather than a stand-in.
+- Tests: would the suite fail if the change were wrong? Try to break it - a mutation that survives every test is the highest-value finding available. Name the missing case, never ask for "more tests". A test built to confirm your model can't find what the model misses: for concurrency, run the real conflicting operation alongside the change, in a deterministic interleaving, rather than a stand-in.
 
-Go through every item for this change before concluding; most won't apply, and deciding that is
-quick. Each that applies needs evidence even when it comes up clean: an item read as a heading is
-where the next reviewer finds the bug. Don't stop at the first plausible findings.
+Go through every item before concluding; one that applies needs evidence even when it comes up
+clean. Don't stop at the first plausible findings.
 
 ## CI's job and yours
 
