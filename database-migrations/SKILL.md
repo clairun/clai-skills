@@ -4,21 +4,25 @@ description: "Use when writing or reviewing a schema or data migration: plan its
 ---
 # Database Migrations
 
-A migration runs against live traffic, under the project's migration runner, on production-sized data. Most failures come from those three rather than from the SQL being wrong. Read the runner before the migration: whether the file runs as one transaction, what state a failure leaves (for example a dirty version that blocks later runs), whether it retries, and when it runs relative to the deploy.
+A migration runs against live traffic, under the project's migration runner, on production-sized data. Those three, more than the SQL, decide whether it is safe. Read the runner before the migration: whether the file runs as one transaction, what state a failure leaves (for example a dirty version that blocks later runs), whether it retries, and when it runs relative to the deploy.
 
 ## Locks
 
-Write a lock plan: each statement, the lock it takes, the table, in order. Look up lock modes in the database's documentation for the installed version rather than recalling them. Then:
+Write a lock plan: each statement, in order, and the locks it takes on every table it touches. Look up lock modes in the database's documentation for the installed version rather than recalling them; they vary by statement form (in Postgres, `ALTER TABLE ... ADD FOREIGN KEY` locks both tables). Then:
 
-- Find every application transaction that touches those tables while the migration runs, including implicit ones: foreign-key cascades, triggers, partitions. Derive the cascade graph from the catalog (in Postgres, `pg_constraint`); grepping the code for table names misses it.
-- Compare orders. If the migration locks A then B and any transaction locks B then A, they can deadlock. Take all the locks up front, in the application's order, or split the migration so each transaction locks one table.
-- Flag lock upgrades: a weaker lock followed by a stronger one on the same table (for example `CREATE INDEX` then `ALTER TABLE`) can deadlock with any transaction that reads and then writes it.
-- Bound the wait (in Postgres, `lock_timeout`). A waiting exclusive lock queues every later query behind it, reads included. Know what a timeout leaves behind and how to recover.
-- Read the repo's recent migrations of the same kind. A lock pattern they use and this one lacks needs a reason.
+- Find every application transaction that touches those tables while the migration runs, including implicit locks: foreign-key actions and key checks, triggers, and partitions covered by a lock on their parent. Derive them from the catalog (in Postgres, `pg_constraint` rows with `contype = 'f'` in both directions, and `pg_trigger`); grepping the code for table names misses them. Confirm by running each conflicting operation in an open transaction on a scratch database and reading its locks (`pg_locks`).
+- Compare orders in both directions. If the migration locks A then B and any transaction locks B then A, they can deadlock. A foreign key is locked parent→child by cascades and child→parent by key checks on insert and update, so there may be no order safe against every path. Prefer one table per transaction. Otherwise take every lock up front, at its strongest mode, in the order that conflicts with the fewest paths.
+- Flag lock upgrades: a weaker lock followed by a stronger one on the same table (for example `CREATE INDEX` then `ALTER TABLE ... ADD COLUMN`) can deadlock with any transaction that reads and then writes it. Fix: take the strongest lock first (`LOCK TABLE t IN ACCESS EXCLUSIVE MODE`).
+- A deadlock doesn't hang: the database aborts one side, and which one is hard to predict, so the cost is a failed user request or a failed run. In Postgres, a `lock_timeout` below `deadlock_timeout` makes the migration usually give up first; make the run safe to retry.
+- Bound the wait (`lock_timeout` applies to each lock acquisition, not to how long locks are held). A waiting ACCESS EXCLUSIVE request blocks every later query on the table, plain SELECTs included. Know what a timeout leaves behind and how to recover.
 
 ## Size and duration
 
-Measure on production data, read-only: table and index sizes, row counts, whether rewritten columns are already constrained, and long-running transactions. Estimate how long each exclusive lock is held, and say whether the estimate is measured or extrapolated.
+Measure on production data, read-only: table and index sizes, row counts, long-running transactions, and whether a validated constraint already proves what the migration adds (a CHECK proving NOT NULL avoids a full scan). Estimate how long each exclusive lock is held, and say whether the estimate is measured or extrapolated. Prefer forms that avoid long exclusive locks (in Postgres, `CREATE INDEX CONCURRENTLY`, or `NOT VALID` then `VALIDATE`); `CONCURRENTLY` can't run inside the runner's transaction and leaves an invalid index on failure.
+
+## Data migrations
+
+Batch backfills and commit between batches so no transaction holds row locks for long, and touch rows in the same order as the application.
 
 ## Reverse path
 
@@ -26,4 +30,4 @@ The down migration gets the same lock plan, ordering check, and test as the up m
 
 ## Testing
 
-Run it through the real runner, against the real schema, on an isolated environment. Then try to break it: run the application's conflicting operations in a loop (writes, deletes, and cascades on the touched tables) while the up and down migrations run, several times. Holding a single competing lock only tests the timeout; it cannot reveal a deadlock or a lock-order problem. Record the schema before and after, and the runner's version state after each failure.
+Run it through the real runner, against the real schema, on an isolated environment. Reproduce each order conflict or upgrade in the lock plan deterministically with two sessions: open the application transaction and run its first step, start the migration, then run the application's second step. Then run the real conflicting operations in a loop while the up and down migrations run, as a smoke test only: a clean loop proves little, and holding a single competing lock only tests the timeout. Record the schema before and after, and the runner's version state after each failure.
