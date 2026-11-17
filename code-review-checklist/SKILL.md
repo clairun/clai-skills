@@ -19,6 +19,9 @@ Reproduce the behaviour or bug before accepting that it exists or is fixed. Test
 for the case that would make the theory false. Check what the explanation doesn't mention: adjacent
 paths, error branches, callers outside the described scope. Stay read-only unless asked to fix things.
 
+If you wrote, simplified, or tested the change, you share its blind spots: your review confirms your
+own model. Treat it as a self-check and hand the change to an independent reviewer before it ships.
+
 ## Shape
 
 - Is the problem real? Restate it without the patch's framing, and quantify it from data if data exists.
@@ -28,6 +31,7 @@ paths, error branches, callers outside the described scope. Stay read-only unles
 - Is the rule stated once? Copies drift, and a cross-reference pointing at the wrong function is drift already arrived. A justification that is false about its own code is a finding.
 - Is the problem actually solved? Enumerate every path, provider, or transport with the same shape. Fixing one of three while a new comment declares the rest correct is worse than not fixing.
 - Does correctness depend on external behaviour? Prefer removing the need over pinning it.
+- Does it follow precedent? Read the most recent changes of the same kind in the repo. A safeguard they use and this one lacks needs a reason.
 
 ## Correctness
 
@@ -37,8 +41,13 @@ caller/callee.
 - Boundaries: for every new event, field, config key, enum variant, or persisted shape, find the consumer and verify it accepts it. The consumer is usually outside the diff.
 - Blast radius: follow callers and serialized or external consumers beyond symbol search. Identify the one fact the change depends on for safety; prove it with source, a focused check, or a live run, or mark it unproven.
 - Failure modes: empty or malformed input, partial failure after writes, cleanup, cancellation, timeout, retry, ordering, concurrency, stale state, backward compatibility, resource growth, security boundaries. Give trigger, path, impact, fix - never "could fail".
+- Ordering and concurrency: for each lock, row, file, or other shared resource the change takes, write down the order it acquires them, then compare that order with every other path touching the same resources while it runs. Include implicit paths that symbol search misses: foreign-key cascades, triggers, ORM hooks, event handlers. Taking a weaker lock and later a stronger one on the same resource is an ordering problem too.
+- Reverse paths: rollback, down migrations, undo, and feature-flag-off paths get the same review as the forward path.
 - Runtime semantics (exception hierarchy, cancellation, path rules, overflow, locale, dates): verify against the project's actual runtime, or file as a question rather than a defect.
-- Tests: would the suite fail if the change were wrong? Try to break it - a mutation that survives every test is the highest-value finding available. Name the missing case, never ask for "more tests".
+- Tests: would the suite fail if the change were wrong? Try to break it - a mutation that survives every test is the highest-value finding available. Name the missing case, never ask for "more tests". A test built to confirm your model can't find what the model misses: for concurrency, run the real conflicting operation alongside the change rather than a stand-in.
+
+Answer every item above for this change, with evidence or "N/A because ...". A skipped item is where
+the next reviewer finds the bug. Stopping at the first plausible findings is the common way to miss it.
 
 ## CI's job and yours
 
@@ -65,5 +74,5 @@ untraced speculation, style preferences, and rigor absent from the surrounding c
 Recommend simplification only as: replace X with Y because Z.
 
 Close with findings by severity, the shape verdict in one line (e.g. "right diagnosis, overbuilt
-solution"), what you did not check, and the one cheap experiment that would settle the load-bearing
+solution"), the checklist items you did not cover and why, and the one cheap experiment that would settle the load-bearing
 claim. If a probe or query decides whether 250 lines should exist, recommend running it before merge.
