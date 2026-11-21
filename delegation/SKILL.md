@@ -4,7 +4,7 @@ description: "Use when another agent's role covers the work, or when work can be
 ---
 # Delegation
 
-When the workspace has an agent whose role covers a kind of work, that work is theirs by default. Assign it to them, including small changes and fixes to what they delivered. Do it yourself only when no agent's role covers it, or when the round trip would cost more than the work is worth. If you do, say so, and tell that agent what you changed and why.
+When the workspace has an agent whose role covers a kind of work, that work is theirs by default; if your own role covers it, it is yours. When you route the work, assign it to them, including small changes and fixes to what they delivered. If two roles cover it, the author of the work comes first. Inside a task assigned to you, do not hand work on unless your instructions ask for it: say in your reply whose role covers it. Do another role's work yourself only when the round trip would cost more than the work is worth. Then say so, and ask that agent to review what you changed, not to redo it.
 
 Beyond that, delegate when independent work can run in parallel or when a separate perspective improves quality: scoped investigations, hypothesis checks, reviews, summaries of separate subsystems, data gathering. Keep work that belongs to no one's role local when the next step needs the result right away, when it is tightly coupled, or when the decision means weighing several inputs together.
 
@@ -20,6 +20,6 @@ A good dispatch has a concrete scope (`audit error handling in src-tauri/src/ass
 
 Delegated claims are input, not conclusions. Verify the ones that matter, reconcile conflicts with direct evidence rather than confidence or majority, and produce one coherent result rather than a stitched transcript of replies. A review verdict is the same: validate the findings and decide what to accept, reject, or fix.
 
-When work an agent delivered later fails a check (a review, an automated check, a user correction), send the failure back to the task that produced it. The message reopens that task with its context, so the author fixes it and learns from it. If you already fixed it yourself, still send what failed and what you changed.
+When work an agent delivered later fails a check because of that work (a review finding, an automated check, a user correction), send the failure back to the task that produced it. The message reopens that task with its history, so the author fixes its own mistake and can record what it learnt. If the task cannot take a message, assign the same agent a new task with the failure. Inside a task assigned to you, report the failure to whoever assigned it instead. A flaky check is not the author's failure, and a changed requirement is new work. If the work fails the same check again after going back, stop and tell the user or your assigner; do not fix it silently.
 
 When a task fails, times out, or returns something other than what you asked for, retry once with a sharper scope. If that fails too, do the work yourself or report it as not done. Report failures and stalls from evidence; don't fill gaps with guesses.
