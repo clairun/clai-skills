@@ -17,7 +17,7 @@ how delegated tasks report back) so agents can use their own judgement.
 | [code-review-checklist](code-review-checklist/SKILL.md) | Reviewing a change, validating someone's theory, or confirming work is done: whether it is the right change at all, then whether it is correct, verified independently. |
 | [codebase-quality-audit](codebase-quality-audit/SKILL.md) | Auditing a whole repository or subsystem for high-value refactoring and quality improvements, producing a prioritized report. |
 | [database-migrations](database-migrations/SKILL.md) | Writing or reviewing a schema or data migration: lock plan against live traffic, failure recovery, reverse path, and testing under concurrent load. |
-| [delegation](delegation/SKILL.md) | Splitting separable work across collaborators, tools, or review passes. |
+| [delegation](delegation/SKILL.md) | Giving work to the agent whose role covers it, and splitting separable work across collaborators, tools, or review passes. |
 | [development-discipline](development-discipline/SKILL.md) | Implementing code changes with focused scope, clear boundaries, and behavior-focused validation. |
 | [iterative-review](iterative-review/SKILL.md) | Shipping code: require independent review, fix validated findings, repeat until clear. |
 | [performance-measurement](performance-measurement/SKILL.md) | Measuring and reporting performance changes without mistaking errors, skipped work, or noise for gains. |
