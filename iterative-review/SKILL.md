@@ -1,10 +1,10 @@
 ---
 name: "Iterative Review"
-description: "Use before publishing, releasing, deploying, or otherwise shipping code: get an independent review, fix validated findings, and repeat until clear."
+description: "Use before publishing, releasing, deploying, sending, or otherwise shipping work, code or not: get an independent review, fix validated findings, and repeat until clear."
 ---
 # Iterative Review
 
-Before code goes out (a push, a PR, a release, a deploy, or calling work shipped), get an independent review and act on it. Local commits, investigation, and planning don't need this.
+Before work goes out (a push, a PR, a release, a deploy, a report or document sent to its audience, or calling work shipped), get an independent review and act on it. Local commits, drafts, investigation, and planning don't need this.
 
 ## The loop
 
