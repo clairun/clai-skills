@@ -21,6 +21,7 @@ how delegated tasks report back) so agents can use their own judgement.
 | [development-discipline](development-discipline/SKILL.md) | Implementing code changes with focused scope, clear boundaries, and behavior-focused validation. |
 | [iterative-review](iterative-review/SKILL.md) | Shipping code: require independent review, fix validated findings, repeat until clear. |
 | [performance-measurement](performance-measurement/SKILL.md) | Measuring and reporting performance changes without mistaking errors, skipped work, or noise for gains. |
+| [project-planning](project-planning/SKILL.md) | Turning a goal into a plan before implementation starts: small deliverables with their dependencies, built in order, and the decisions only the user can make. |
 | [project-verification](project-verification/SKILL.md) | Creating or maintaining a project-local guide to exercise real user behavior. |
 | [root-cause-debugging](root-cause-debugging/SKILL.md) | Reproducing a failure, tracing its first wrong state, and verifying the fix. |
 | [self-reflection](self-reflection/SKILL.md) | Finishing non-trivial work: THINK, WRITE, REFLECT, REVISE before handing off. |
