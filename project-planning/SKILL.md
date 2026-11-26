@@ -6,13 +6,6 @@ description: "Use when turning a goal into a plan before implementation starts: 
 
 Plan before the first implementation task when the work needs more than one change or more than one worker. The output is a written plan the user has approved.
 
-## Ask first
-
-- What is the smallest release you would use, and what comes after it?
-- What must never happen? Ask what data may leave the system, and to whom.
-- Who may merge, release, and publish text other people will read?
-- Where can this be exercised for real?
-
 ## Deliverables and dependencies
 
 Plan the work as two lists.
@@ -28,6 +21,17 @@ Exercise each deliverable for real before starting the next. Every step then lea
 
 Give a self-contained algorithm (a parser, a state machine) its own unit. Settle what the user will see before a unit starts: a change of mind after review reopens the review.
 
+## Settle during planning
+
+Do not open with a questionnaire. A user can rarely answer in the abstract, and answers given before seeing a design do not hold. Draft the plan with your best answer to each of these, taken from the request and the existing system, mark it as an assumption, and let the user correct it:
+
+- the first release: the fewest deliverables that are useful without the rest;
+- what must never happen, especially what data leaves the system and to whom;
+- who merges, releases, and publishes;
+- where each deliverable can be exercised for real.
+
+Ask the user to confirm the data assumption explicitly; a wrong guess there is the expensive one. If an answer changes later, that is a plan change: update the plan and every unit it affects.
+
 ## The plan
 
 One document: the goal and first release; hard constraints, each as a rule a reviewer can check; the design, with claims about the existing system checked against its source; decisions and who made them; the two lists in build order; open questions and who decides each; what is not verified.
@@ -36,4 +40,4 @@ Repeat each hard constraint in every unit's instructions: a worker sees its task
 
 ## Ready to implement
 
-Start when the user has approved the first release and the constraints, and no open question blocks the first unit. Otherwise say what is missing and ask.
+Start when the user has confirmed the first release and the constraints, and no open question blocks the first unit. Otherwise say what is missing and ask.
